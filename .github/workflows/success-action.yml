@@ -13,11 +13,21 @@ jobs:
         run: |
           echo "Success!"
 
+      - name: Set Slack Notify Parameter Dynamically
+        if: always()
+        id: set_slack_notify_parameter
+        run: |
+          if [ "${{ steps.success.outcome }}" == "success" ]; then
+            echo "JOB_NAME='Slack Notify Success'" >> $GITHUB_ENV
+          else
+            echo "JOB_NAME='Slack Notify FAIL'" >> $GITHUB_ENV
+          fi
+
       - name: Slack Notify
         uses: 8398a7/action-slack@v3
         if: always()
         with:
-          job_name: Slack Notify
+          job_name: ${{ env.JOB_NAME }}
           status: ${{ steps.success.outcome }}
           fields: repo,eventName,ref,workflow
         env:
