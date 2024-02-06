@@ -17,10 +17,9 @@ jobs:
         if: always()
         id: set_slack_notify_parameter
         run: |
-          if [ "${{ steps.success.outcome }}" == "success" ]; then
+          if [ "${{ steps.fail.outcome }}" == "success" ]; then
             echo "JOB_NAME='Slack Notify Success'" >> $GITHUB_ENV
           else
-            echo ${{ steps.success.outcome }}
             echo "JOB_NAME='Slack Notify FAIL'" >> $GITHUB_ENV
           fi
 
@@ -29,7 +28,7 @@ jobs:
         if: always()
         with:
           job_name: ${{ env.JOB_NAME }}
-          status: ${{ steps.success.outcome }}
+          status: ${{ steps.fail.outcome }}
           fields: repo,eventName,ref,workflow
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
