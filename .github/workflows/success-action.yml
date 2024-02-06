@@ -19,7 +19,7 @@ jobs:
         run: |
           if [ "${{ steps.target_step.outcome }}" == "success" ]; then
             echo "JOB_NAME=Slack Notify Success" >> $GITHUB_ENV
-            echo "EMOJI_CODE=:relieved_face:" >> $GITHUB_ENV
+            echo "EMOJI_CODE=:octocat:" >> $GITHUB_ENV
           else
             echo "JOB_NAME=Slack Notify FAIL" >> $GITHUB_ENV
             echo "EMOJI_CODE=:fearful_face:" >> $GITHUB_ENV
