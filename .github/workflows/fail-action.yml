@@ -7,8 +7,8 @@ jobs:
   fail-slack-notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Fail
-        id: fail
+      - name: Target Step
+        id: target_step
         shell: bash
         run: |
           exit 1
@@ -17,18 +17,21 @@ jobs:
         if: always()
         id: set_slack_notify_parameter
         run: |
-          if [ "${{ steps.fail.outcome }}" == "success" ]; then
+          if [ "${{ steps.target_step.outcome }}" == "success" ]; then
             echo "JOB_NAME='Slack Notify Success'" >> $GITHUB_ENV
+            echo "EMOJI_CODE=':relieved_face:'" >> $GITHUB_ENV
           else
             echo "JOB_NAME='Slack Notify FAIL'" >> $GITHUB_ENV
+            echo "EMOJI_CODE=':fearful_face:'" >> $GITHUB_ENV
           fi
 
       - name: Slack Notify
         uses: 8398a7/action-slack@v3
         if: always()
         with:
-          job_name: ${{ env.JOB_NAME }}
-          status: ${{ steps.fail.outcome }}
+          text: ${{ env.JOB_NAME }}
+          icon_emoji: ${{ env.EMOJI_CODE }}
+          status: ${{ steps.target_step.outcome }}
           fields: repo,eventName,ref,workflow
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
