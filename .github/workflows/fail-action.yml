@@ -20,6 +20,7 @@ jobs:
           if [ "${{ steps.success.outcome }}" == "success" ]; then
             echo "JOB_NAME='Slack Notify Success'" >> $GITHUB_ENV
           else
+            echo ${{ steps.success.outcome }}
             echo "JOB_NAME='Slack Notify FAIL'" >> $GITHUB_ENV
           fi
 
