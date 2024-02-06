@@ -1,0 +1,26 @@
+name: Fail Slack Notify Demo
+
+on:
+  push:
+    branches:
+      - fail_slack_notify
+  workflow_dispatch:
+
+jobs:
+  fail-slack-notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail
+        id: fail
+        shell: bash
+        run: |
+          exit 1
+
+      - name: Slack Notify
+        uses: 8398a7/action-slack@v3
+        if: always()
+        with:
+          status: ${{ steps.success.outcome }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
