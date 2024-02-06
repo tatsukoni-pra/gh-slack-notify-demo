@@ -1,9 +1,6 @@
 name: Success Slack Notify Demo
 
 on:
-  push:
-    branches:
-      - success_slack_notify
   workflow_dispatch:
 
 jobs:

@@ -1,9 +1,6 @@
 name: Fail Slack Notify Demo
 
 on:
-  push:
-    branches:
-      - fail_slack_notify
   workflow_dispatch:
 
 jobs:
