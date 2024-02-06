@@ -19,10 +19,8 @@ jobs:
         run: |
           if [ "${{ steps.target_step.outcome }}" == "success" ]; then
             echo "JOB_NAME=Slack Notify Success" >> $GITHUB_ENV
-            echo "EMOJI_CODE=:relieved_face:" >> $GITHUB_ENV
           else
             echo "JOB_NAME=Slack Notify FAIL" >> $GITHUB_ENV
-            echo "EMOJI_CODE=:fearful_face:" >> $GITHUB_ENV
           fi
 
       - name: Slack Notify
@@ -30,7 +28,7 @@ jobs:
         if: always()
         with:
           text: ${{ env.JOB_NAME }}
-          icon_emoji: ${{ env.EMOJI_CODE }}
+          # icon_emoji: ':octocat:' Do not work
           status: ${{ steps.target_step.outcome }}
           fields: repo,eventName,ref,workflow
         env:
