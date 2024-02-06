@@ -17,7 +17,8 @@ jobs:
         uses: 8398a7/action-slack@v3
         if: always()
         with:
+          job_name: Slack Notify
           status: ${{ steps.success.outcome }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest
+          fields: repo,eventName,ref,workflow
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
